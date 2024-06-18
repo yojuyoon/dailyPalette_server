@@ -70,7 +70,7 @@ let AuthService = class AuthService {
             });
             yield this.userRepository.save(user);
             const token = this.jwtService.sign({ id: user.id });
-            return { token };
+            return { token, email, name };
         });
     }
     login(loginDto) {
@@ -87,7 +87,7 @@ let AuthService = class AuthService {
                 throw new common_1.UnauthorizedException("Invalid email or password");
             }
             const token = this.jwtService.sign({ id: user.id });
-            return { token };
+            return { token, email, name: user.name };
         });
     }
 };
