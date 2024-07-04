@@ -7,9 +7,13 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import User from "../users/user.entity";
 import { JwtStrategy } from "./jwt.strategy";
+import { JwtRefreshStrategy } from "./jwt-refresh.strategy";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // 전역 모듈로 설정 (필요 시)
+    }),
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -26,7 +30,7 @@ import { JwtStrategy } from "./jwt.strategy";
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  providers: [AuthService, JwtStrategy, JwtRefreshStrategy],
+  exports: [JwtStrategy, PassportModule, JwtRefreshStrategy],
 })
 export class AuthModule {}

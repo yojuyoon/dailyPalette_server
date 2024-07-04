@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import User from "./user.entity";
 import { CreateUserDto } from "./dto/user.dto";
-
+import * as bcrypt from "bcrypt";
 export class UsersService {
   constructor(
     @InjectRepository(User)
@@ -49,4 +49,21 @@ export class UsersService {
     await this.usersRepository.remove(user);
     return user;
   }
+
+  // async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
+  //   const user = await this.usersRepository.findOne({
+  //     where: {
+  //       id: id,
+  //     },
+  //   });
+
+  //   const isRefreshTokenMatching = await bcrypt.compare(
+  //     refreshToken,
+  //     user.currentHashedRefreshToken
+  //   );
+
+  //   if (isRefreshTokenMatching) {
+  //     return user;
+  //   }
+  // }
 }

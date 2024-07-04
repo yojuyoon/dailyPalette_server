@@ -25,4 +25,7 @@ export default class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ nullable: true })
+  hashedRt?: string;
 }
