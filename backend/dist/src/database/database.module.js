@@ -26,7 +26,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                     username: ConfigService.get("POSTGRES_USER"),
                     password: ConfigService.get("POSTGRES_PASSWORD"),
                     database: ConfigService.get("POSTGRES_DB"),
-                    entities: [__dirname + "/../**/*.entity.{js,ts}"],
+                    entities: ["dist/**/*.entity{.ts,.js}"],
                     synchronize: true,
                 }),
             }),

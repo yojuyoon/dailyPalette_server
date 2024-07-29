@@ -1,0 +1,37 @@
+version: "3.5"
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=blackberry123
+      - POSTGRES_DB=dailypalette
+    container_name: postgres
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    image: dailypalette_server-app
+    environment:
+      - PORT=${PORT}
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=blackberry123
+      - POSTGRES_DB=dailypalette
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

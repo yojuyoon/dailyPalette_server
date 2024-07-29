@@ -5,21 +5,26 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from "@nestjs/platform-fastify";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+
+const port = 3001;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter()
   );
-  app.enableCors({
-    origin: "http://localhost:3000",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type, Accept",
-    credentials: true,
-  });
+  const config = new DocumentBuilder()
+    .setTitle("DailyPalette API")
+    .setDescription("The DailyPalette API description")
+    .setVersion("1.0")
+    .build();
+  app.enableCors();
   app.register(fastifyCookie, {
     secret: "dailyPaletterefreshTokenSecret",
   });
-  await app.listen(3001);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("api", app, document);
+  await app.listen(port, "0.0.0.0");
 }
 bootstrap();

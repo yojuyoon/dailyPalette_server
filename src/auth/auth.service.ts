@@ -58,6 +58,7 @@ export class AuthService {
     response.setCookie("Refresh", tokens.refresh_token, {
       httpOnly: true,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      sameSite: true,
     });
 
     return {
@@ -94,8 +95,9 @@ export class AuthService {
     await this.updateRtHash(user.id, tokens.refresh_token);
 
     response.setCookie("Refresh", tokens.refresh_token, {
-      domain: null,
+      httpOnly: true,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      sameSite: true,
     });
 
     return {

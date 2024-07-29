@@ -20,7 +20,7 @@ function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = yield core_1.NestFactory.create(app_module_1.AppModule, new platform_fastify_1.FastifyAdapter());
         app.enableCors({
-            origin: "http://localhost:3000",
+            origin: "http://localhost:3001",
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
             allowedHeaders: "Content-Type, Accept",
             credentials: true,
@@ -28,7 +28,7 @@ function bootstrap() {
         app.register(cookie_1.default, {
             secret: "dailyPaletterefreshTokenSecret",
         });
-        yield app.listen(3001);
+        yield app.listen(3002);
     });
 }
 bootstrap();
